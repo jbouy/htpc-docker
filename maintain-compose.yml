@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  watchtower:
+    container_name: watchtower
+    restart: always
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *" --cleanup
+
+  heimdall:
+    image: "lscr.io/linuxserver/heimdall"
+    container_name: "heimdall"
+    volumes:
+      - ${DOCKERDIR}/heimdall:/config
+      - ${DOCKERDIR}/shared:/shared
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
