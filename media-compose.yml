@@ -159,3 +159,16 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+
+  tautulli:
+    image: "lscr.io/linuxserver/tautulli"
+    container_name: "tautulli"
+    volumes:
+      - ${DOCKERDIR}/tautulli:/config
+    ports:
+      - "8181:8181"
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
