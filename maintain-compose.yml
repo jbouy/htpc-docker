@@ -9,16 +9,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *" --cleanup
 
-  heimdall:
-    image: "lscr.io/linuxserver/heimdall"
-    container_name: "heimdall"
-    volumes:
-      - ${DOCKERDIR}/heimdall:/config
-      - ${DOCKERDIR}/shared:/shared
-    ports:
-      - "80:80"
-      - "443:443"
+  nginx-proxy-manager:
+    container_name: nginx-proxy-manager
+    image: "jc21/nginx-proxy-manager:latest"
     restart: unless-stopped
+    ports:
+      - "40080:80"
+      - "40081:81"
+      - "40443:443"
+    volumes:
+      - ${DOCKERDIR}/nginx-proxy-manager:/data
+      - ${DOCKERDIR}/shared:/shared
+      - /etc/letsencrypt:/etc/letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
