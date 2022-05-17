@@ -36,3 +36,16 @@ services:
     volumes:
       - ${DOCKERDIR}/ddclient:/config
     restart: unless-stopped
+
+  organizr:
+    image: organizr/organizr
+    container_name: organizr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - "9983:80"
+    volumes:
+      - ${DOCKERDIR}/organizr:/config
+    restart: unless-stopped
