@@ -49,3 +49,24 @@ services:
     volumes:
       - ${DOCKERDIR}/organizr:/config
     restart: unless-stopped
+
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguard
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - "53:53"
+      - "67:67/udp"
+      - "68:68"
+      - "40100:80/tcp"
+      - "44101:443"
+      - "3000:3000/tcp"
+      - "853:853/tcp"
+      - "5443:5443"
+    volumes:
+      - ${DOCKERDIR}/adguard/work:/opt/adguardhome/work
+      - ${DOCKERDIR}/adguard/conf:/opt/adguardhome/conf
+    restart: unless-stopped
